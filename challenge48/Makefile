@@ -18,7 +18,7 @@ restart:
 
 # Clean up
 .PHONY: clean
-clean: stop redis-stop
+clean: stop redis-stop network-remove
 	@echo "Cleaning up..."
 	rm -f data-privacy-vault
 
@@ -27,6 +27,12 @@ clean: stop redis-stop
 network-create:
 	@echo "Creating network..."
 	docker network create $(NETWORK)
+
+#Remove docker network
+.PHONY: network-remove
+network-remove:
+	@echo "Removing network..."
+	docker network rm $(NETWORK)
 
 # Build the Docker image
 .PHONY: docker-build
