@@ -1,0 +1,5 @@
+{
+    "DataEncryptionKey": "my32digitkey12345678901234567890",
+    "DataEncryptionIV": "my16digitIvKey12",
+    "TokenEncryptionKey":"testToken123"
+}
