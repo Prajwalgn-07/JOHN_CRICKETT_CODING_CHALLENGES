@@ -1,40 +1,99 @@
 package main
 
 import (
+	"bufio"
 	"crypto/md5"
 	"encoding/hex"
 	"fmt"
+	"os"
+	"strings"
 )
 
 func main() {
-	testHash := "7a95bf926a0333f57705aeac07a362a2"
-	combinations := getAllCombinationsForTheSpecifiedLength(4)
+	fmt.Println("Which approach you want to use bruteForce/wordList?")
+	userInput := readUserInput()
+	if strings.EqualFold(userInput, "bruteForce") {
+		fmt.Println("Enter the Hash to decode")
+		hashToDecode := readUserInput()
+		if bruteForce(hashToDecode) {
+			fmt.Println("Thanks for using hash decoder")
+		} else {
+			fmt.Println("Sorry couldn't decode the hash")
+		}
+	} else if strings.EqualFold(userInput, "wordList") {
+		fmt.Println("Enter the Hash to decode")
+		hashToDecode := readUserInput()
+		if wordList(hashToDecode) {
+			fmt.Println("Thanks for using hash decoder")
+		} else {
+			fmt.Println("Sorry couldn't decode the hash")
+		}
+	}
+}
 
-	for _, password := range combinations {
+func readUserInput() string {
+	var input string
+
+	fmt.Print("Enter Your Input: ")
+
+	fmt.Scanln(&input)
+
+	fmt.Println("You entered:", input)
+
+	return input
+}
+
+func bruteForce(testHash string) (isPasswordCracked bool) {
+	bruteForceCombinations := getAllBruteForceCombinationsForTheSpecifiedLength(4)
+	for _, password := range bruteForceCombinations {
 		hash := md5.Sum([]byte(password))
 		hashInString := hex.EncodeToString(hash[:])
 		if hashInString == testHash {
 			fmt.Println("The password for the hash is:", password)
-			break
+			return true
 		}
 	}
-
-	fmt.Println("Search complete.")
+	return false
 }
 
-func getAllCombinationsForTheSpecifiedLength(length int) []string {
-	const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-	var combinations []string
-	generateCombinations(alphabet, length, "", &combinations)
-	return combinations
+func wordList(testHash string) (isPasswordCracked bool) {
+	wordListCombinations := readWordList()
+	for _, password := range wordListCombinations {
+		hash := md5.Sum([]byte(password))
+		hashInString := hex.EncodeToString(hash[:])
+		if hashInString == testHash {
+			fmt.Println("The password for the hash is:", password)
+			return true
+		}
+	}
+	return false
 }
 
-func generateCombinations(alphabet string, length int, prefix string, combinations *[]string) {
-	if length == 0 {
-		*combinations = append(*combinations, prefix)
+func readWordList() (combinations []string) {
+	// Open the text file
+	file, err := os.Open("word-list.txt")
+	if err != nil {
+		fmt.Println("Error:", err)
 		return
 	}
-	for _, char := range alphabet {
-		generateCombinations(alphabet, length-1, prefix+string(char), combinations)
+	defer file.Close()
+
+	// Create a scanner to read the file line by line
+	scanner := bufio.NewScanner(file)
+
+	// Create a slice to hold the lines
+	var lines []string
+
+	// Read lines and append to the slice
+	for scanner.Scan() {
+		lines = append(lines, scanner.Text())
 	}
+
+	// Check for any errors during scanning
+	if err := scanner.Err(); err != nil {
+		fmt.Println("Error:", err)
+		return
+	}
+
+	return lines
 }
