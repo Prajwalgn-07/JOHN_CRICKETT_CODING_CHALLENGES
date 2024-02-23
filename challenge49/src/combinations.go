@@ -1,7 +1,7 @@
 package main
 
 func getAllBruteForceCombinationsForTheSpecifiedLength(length int) []string {
-	const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+	const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789@#!()"
 	var combinations []string
 	generateCombinations(alphabet, length, "", &combinations)
 	return combinations
