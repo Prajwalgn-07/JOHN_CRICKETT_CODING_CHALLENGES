@@ -1,9 +1,11 @@
-package main
+package algorithm
 
-func getAllBruteForceCombinationsForTheSpecifiedLength(length int) []string {
+func GetAllBruteForceCombinationsForTheSpecifiedLength(length int) []string {
 	const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789@#!()"
 	var combinations []string
-	generateCombinations(alphabet, length, "", &combinations)
+	for i := 1; i <= length; i++ {
+		generateCombinations(alphabet, length, "", &combinations)
+	}
 	return combinations
 }
 

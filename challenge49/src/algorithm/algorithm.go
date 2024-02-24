@@ -1,13 +1,14 @@
-package main
+package algorithm
 
 import (
 	"crypto/md5"
 	"encoding/hex"
 	"fmt"
+	"src/utils"
 )
 
 func BruteForce(hash string) (isPasswordCracked bool) {
-	bruteForceCombinations := getAllBruteForceCombinationsForTheSpecifiedLength(4)
+	bruteForceCombinations := GetAllBruteForceCombinationsForTheSpecifiedLength(6)
 	for _, password := range bruteForceCombinations {
 		hashInString := GetHash(password)
 		if hashInString == hash {
@@ -19,7 +20,7 @@ func BruteForce(hash string) (isPasswordCracked bool) {
 }
 
 func WordList(hash string) (isPasswordCracked bool) {
-	wordListCombinations := ReadWordList("word-list.txt")
+	wordListCombinations := utils.ReadWordList("word-list.txt")
 	for _, password := range wordListCombinations {
 		hashInString := GetHash(password)
 		if hashInString == hash {
@@ -30,9 +31,9 @@ func WordList(hash string) (isPasswordCracked bool) {
 	return false
 }
 
-// func RainBowTable(hash string)(isPasswordCracked bool){
-
-// }
+func ReadWordList(s string) {
+	panic("unimplemented")
+}
 
 func GetHash(word string) string {
 	hash := md5.Sum([]byte(word))

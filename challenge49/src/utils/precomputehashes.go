@@ -1,4 +1,4 @@
-package main
+package utils
 
 import (
 	"bufio"
@@ -7,13 +7,13 @@ import (
 	"os"
 )
 
-func preComputHashesFromWordList(wordListFile string) {
-	listOfWords := ReadWordList(wordListFile)
-	for _, password := range listOfWords {
-		hashInString := GetHash(password)
-		WriteHashPasswordToRainBowTableJson(hashInString, password, "word-list")
-	}
-}
+// func preComputHashesFromWordList(wordListFile string) {
+// 	listOfWords := ReadWordList(wordListFile)
+// 	for _, password := range listOfWords {
+// 		hashInString := GetHash(password)
+// 		WriteHashPasswordToRainBowTableJson(hashInString, password, "word-list")
+// 	}
+// }
 
 func ReadWordList(fileName string) (combinations []string) {
 	// Open the text file
@@ -86,10 +86,10 @@ func WriteHashPasswordToRainBowTableJson(hash, password string, source string) e
 	return nil
 }
 
-func preComputHashesFromBruteForceMethod(lengthOfThehashes int) {
-	bruteForceCombinations := getAllBruteForceCombinationsForTheSpecifiedLength(lengthOfThehashes)
-	for _, password := range bruteForceCombinations {
-		hashInString := GetHash(password)
-		WriteHashPasswordToRainBowTableJson(hashInString, password, "bruteForceTable")
-	}
-}
+// func preComputHashesFromBruteForceMethod(lengthOfThehashes int) {
+// 	bruteForceCombinations := getAllBruteForceCombinationsForTheSpecifiedLength(lengthOfThehashes)
+// 	for _, password := range bruteForceCombinations {
+// 		hashInString := GetHash(password)
+// 		WriteHashPasswordToRainBowTableJson(hashInString, password, "bruteForceTable")
+// 	}
+// }
