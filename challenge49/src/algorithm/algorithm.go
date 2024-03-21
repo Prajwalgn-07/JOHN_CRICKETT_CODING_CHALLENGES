@@ -8,7 +8,7 @@ import (
 )
 
 func BruteForce(hash string) (isPasswordCracked bool) {
-	bruteForceCombinations := GetAllBruteForceCombinationsForTheSpecifiedLength(6)
+	bruteForceCombinations := GetAllParallelCombinationsForTheSpecifiedLength(6)
 	for _, password := range bruteForceCombinations {
 		hashInString := GetHash(password)
 		if hashInString == hash {
